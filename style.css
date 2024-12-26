@@ -121,56 +121,90 @@ body {
     gap: 2%;
     top: 53%;
     right: 32%;
-   }
-   .loginBody form input:nth-child(1){
-       width: 65%;
-       border-radius: 10px;
-       padding-left: 5%;
-       font-size: 15px;
-       font-weight: bold;
-       font-family: monospace;
-       background-color: #fcddbe93;
-       border: solid 2px #500A20;
-   }
-   .loginBody form input:nth-child(2){
-       width: 20%;
-       border-radius: 10px;
-       font-size: 17px;
-       font-weight: bold;
-       font-family: monospace;
-       background-color: #fa653cbe;
-       border: solid 2px #500A20;
-   }
-   .loginBody form input:nth-child(2):hover{
-       background-color: #fd5b2f;
-       box-shadow: 0px 0px 10px 5px #fd5b2f;
-   }
-   .loginBody form input:nth-child(1):hover{
-       background-color: #fcddbe;
-       box-shadow: 0px 0px 10px 5px #fcddbe93;
-   }
-   
-   .loginBody form {
-        border: solid 2px #C5AACF;
-       display: flex;
-       flex-direction: column;
-       justify-content: center;
-       align-items: center;
-       position: absolute;
-       top: 10%;
-       left: 33%;
-       font-size: 28px;
-       width: 550px;
-       height: 250px;
-       /* border: red solid; */
-       font-weight: bold;
-       font-family: monospace;
-       color: #500A20;
-   }
-   
-   .notRegistered{
-       position: absolute;
-       top: 60%;
-       right: 45%;
-       font-family: monospace;
-   } */
+}
+.loginBody form input:nth-child(1){
+    width: 65%;
+    border-radius: 10px;
+    padding-left: 5%;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: monospace;
+    background-color: #fcddbe93;
+    border: solid 2px #500A20;
+}
+.loginBody form input:nth-child(2){
+    width: 20%;
+    border-radius: 10px;
+    font-size: 17px;
+    font-weight: bold;
+    font-family: monospace;
+    background-color: #fa653cbe;
+    border: solid 2px #500A20;
+}
+.loginBody form input:nth-child(2):hover{
+    background-color: #fd5b2f;
+    box-shadow: 0px 0px 10px 5px #fd5b2f;
+}
+.loginBody form input:nth-child(1):hover{
+    background-color: #fcddbe;
+    box-shadow: 0px 0px 10px 5px #fcddbe93;
+}
+
+.loginBody form {
+    border: solid 2px #C5AACF;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 10%;
+    left: 33%;
+    font-size: 28px;
+    width: 550px;
+    height: 250px;
+    border: red solid;
+    font-weight: bold;
+    font-family: monospace;
+    color: #500A20;
+}
+
+.notRegistered{
+    position: absolute;
+    top: 60%;
+    right: 45%;
+    font-family: monospace;
+} */
+
+.homeBody{
+ height: 100vh;
+}
+
+.sidebar{
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100vh;
+    background: linear-gradient(to bottom, #FCDDBE 5%, #6b0e16, #350307 90%);    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10%;
+    transition: 0.3s;
+}
+
+.sidebar:hover{
+    width: 250px;
+}
+
+.userIcon{
+    width: 50px;
+margin-top: 15%;
+}
+
+.sidebar li{
+    list-style: none;
+}
+.sidebar li a{
+    text-decoration: none;
+}
