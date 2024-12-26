@@ -7,7 +7,7 @@
     $db = new database();
     $users = new users();
 
-    // echo $_SESSION['username'];
+    echo $_SESSION['username'];
     
 
 

@@ -10,7 +10,7 @@ class users{
     }
 
     // method to check if the username already exists
-    private function usernameExists($username) {
+    public function usernameExists($username) {
         try {
             $stmt = $this->conn->prepare("SELECT COUNT(*) FROM users WHERE username = :username");
             $stmt->bindParam(':username', $username);
