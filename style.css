@@ -209,6 +209,10 @@ video {
     width: 250px;
 }
 
+.sidebar:hover + .titleTasks {
+    margin-left: 18%;
+
+}
 .userIcon{
     width: 50px;
     margin-top: 15%;
@@ -224,3 +228,25 @@ video {
 .sidebar ul h3{
  color: white;
 }
+
+
+.titleTasks{
+    border: red solid;
+    display: flex;
+    flex-direction: column;
+    margin-left: 8%;
+    margin-top: -46%;
+    height: 99vh;
+    overflow:auto;
+    transition: 0.3s;
+}
+
+.titleTasks::-webkit-scrollbar {
+    display: none; 
+}
+
+.tasks{
+    display: flex;
+    flex-wrap: wrap;
+}
+

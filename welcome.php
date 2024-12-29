@@ -1,23 +1,17 @@
 <?php
-require_once ('connect.php');
-require_once ('classes.php');
+    require_once ('connect.php');
+    require_once ('classes.php');
 
-$db = new database();
-$connection = $db->connect();
+    $db = new database();
+    $connection = $db->connect();
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
-    if (isset($_POST['username'])) {
-        $username = htmlspecialchars(trim($_POST['username']));
+    if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])){
+            $username = htmlspecialchars(trim($_POST['username']));
 
-        if($connection){
             $user = new users();
             $user->signInOrRegisterUser($username);
- 
-        }
-    } 
-}
+    }
 ?>
-
 
 
 
@@ -58,6 +52,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 
 <footer><?php include('footer.php') ?></footer>    
-<!-- <script src="main.js"></script> -->
+<script src="main.js"></script>
 </body>
 </html>

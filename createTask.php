@@ -13,7 +13,6 @@
         $description = htmlspecialchars(trim($_POST['taskDescription']));
         $category = intval($_POST['category']);
 
-         // Determine the task manager class based on the selected category
         switch ($category) {
             case 1:
                 $categorizedTask = new BasicTask();
@@ -29,11 +28,15 @@
                 exit();
         }
 
-        // Save the new task
-        $result = $categorizedTask->createTask($title, $description);
-        if ($result === false) {
-        echo '<p class="error">Failed to create task.</p>';
-        }
+        // set task properties
+        if ($categorizedTask->setTitle($title) && $categorizedTask->setDescription($description)){
+                $categorizedTask->setCategory($categorizedTask->getCategory());
+            
+            // Save the task
+            if (!$categorizedTask->saveTask()) {
+                echo '<p class="error">Failed to create task.</p>';
+            }
+        } 
     } 
 
    
@@ -55,13 +58,14 @@
         <form action="createTask.php" method="post">
             <h2>Create new task</h2>
             <label for="tasktitle">Title</label>
-            <input id="tasktitle" type="text" name="title" placeholder="Enter task title" required>
+            <input id="tasktitle" type="text" name="title" placeholder="Enter task title">
 
             <label for="taskdesc">Task Description</label>
-            <input id="taskdesc" type="text" name="taskDescription" placeholder="Enter task description" required>
+            <input id="taskdesc" type="text" name="taskDescription" placeholder="Enter task description">
 
             <label for="taskcategory">Choose category</label>
             <select id="taskcategory" name="category">
+                <option value="">--Select a category:--</option>
                 <option value="1">Basic</option>
                 <option value="2">Bug</option>
                 <option value="3">Feature</option>
