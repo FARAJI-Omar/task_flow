@@ -8,18 +8,33 @@
     require_once('classes.php');
     require_once ('connect.php');
 
-    $db = new database();
-    $taskManager = new tasks(); 
-
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createTask'])) {
         $title = htmlspecialchars(trim($_POST['title']));
         $description = htmlspecialchars(trim($_POST['taskDescription']));
-        $categoryId = intval($_POST['category']);
-    
+        $category = intval($_POST['category']);
+
+         // Determine the task manager class based on the selected category
+        switch ($category) {
+            case 1:
+                $categorizedTask = new BasicTask();
+                break;
+            case 2:
+                $categorizedTask = new BugTask();
+                break;
+            case 3:
+                $categorizedTask = new FeatureTask();
+                break;
+            default:
+                echo '<p class="error">Must select a category.</p>';
+                exit();
+        }
+
         // Save the new task
-        $result = $taskManager->saveTask($title, $description, $categoryId);
-        echo $result; 
-    }
+        $result = $categorizedTask->createTask($title, $description);
+        if ($result === false) {
+        echo '<p class="error">Failed to create task.</p>';
+        }
+    } 
 
    
 ?>
@@ -46,7 +61,7 @@
             <input id="taskdesc" type="text" name="taskDescription" placeholder="Enter task description" required>
 
             <label for="taskcategory">Choose category</label>
-            <select id="taskcategory" name="category" required>
+            <select id="taskcategory" name="category">
                 <option value="1">Basic</option>
                 <option value="2">Bug</option>
                 <option value="3">Feature</option>

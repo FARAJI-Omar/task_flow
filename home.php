@@ -3,11 +3,8 @@
 
     require_once('connect.php');
     require_once('classes.php');
-
     $db = new database();
     $users = new users();
-
-    
 
 
 ?>
@@ -31,10 +28,24 @@
             <li><a href="#">View all tasks</a></li>
             <li><a href="#">View my tasks</a></li>
             <li><a href="createTask.php">Create new task</a></li>
-            <li><a href="#">Log out</a></li>
+            <li>
+                <form action="home.php" method="POST">
+                    <input type="submit" name="logout" value="log Out" class="logout">
+                </form>
+            </li>
         </ul>
 
     </div>
     
 </body>
 </html>
+
+<!-- ----------------logout-------------------------- -->
+
+<?php
+    if(isset($_POST["logout"])){
+        session_destroy();
+        header("location: welcome.php");
+        exit();
+    }
+?>

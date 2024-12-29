@@ -10,8 +10,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $username = htmlspecialchars(trim($_POST['username']));
 
         if($connection){
-            $user = new users($connection);
-            $user->registerUser($username);  
+            $user = new users();
+            $user->signInOrRegisterUser($username);
+ 
         }
     } 
 }
@@ -35,23 +36,22 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
        
 <div class="video-background">
     <video id="backgroundVideo" autoplay muted loop playsinline>
-      <source src="images/mountains.mp4" type="video/mp4">
+      <source src="images/stars.mp4" type="video/mp4">
     </video>
   </div>
-
-<div class="welcometext">
-    <h2>Welcome!</h2>
-    <h3>Enjoy managing your tasks!</h3>
+<div class="welcome">
+    <div class="welcometext">
+        <h2>Welcome!</h2>
+        <h3>Enjoy managing your tasks!</h3>
+    </div>
 </div>
-
 <div>
   <form action="welcome.php" method="post">
       <div class="welcomeclass">
-          <input type="text" name="username" placeholder="Please enter a username" required>
+          <input type="text" name="username" placeholder="Please enter a username" >
           <input type="submit" name="enter" value="Enter">
         </div>
     </form>
-    <div class="alreadyRegistrd"><p>already registered? <a href="login.php">Log in</a></p></div>
 </div>
 
 
