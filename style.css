@@ -231,7 +231,6 @@ video {
 
 
 .titleTasks{
-    border: red solid;
     display: flex;
     flex-direction: column;
     margin-left: 8%;
@@ -250,3 +249,16 @@ video {
     flex-wrap: wrap;
 }
 
+.taskcart{
+    border: solid 2px #FF8000;
+    margin: 5px;
+}
+
+.errorAssign{
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: monospace;
+    margin-left: 100px;
+    font-style: italic;
+}

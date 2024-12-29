@@ -168,7 +168,7 @@ class tasks{
     // Method to get all tasks
     public function getTasks() {
         try {
-            $stmt = $this->conn->prepare("SELECT title, description, category, status, created_at, username FROM tasks");
+            $stmt = $this->conn->prepare("SELECT task_id, title, description, category, status, created_at, username FROM tasks");
             $stmt->execute();
             $this->tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -181,22 +181,35 @@ class tasks{
     //     return $this->tasks; // Return the tasks as array
     // }
 
-    // Method to get tasks related to a specific user
-    public function getUserTasks($username) {
+    // // Method to get tasks related to a specific user
+    // public function getUserTasks($username) {
 
-        try {
-            $stmt = $this->conn->prepare("SELECT title, description, category, status, created_at, username FROM tasks WHERE username = :username");
-            $stmt->bindParam(':username', $username);
-            $stmt->execute();
-            $this->tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            echo "Error fetching user tasks: " . $e->getMessage() . "<br>";
-        }
-    }
+    //     try {
+    //         $stmt = $this->conn->prepare("SELECT title, description, category, status, created_at, username FROM tasks WHERE username = :username");
+    //         $stmt->bindParam(':username', $username);
+    //         $stmt->execute();
+    //         $this->tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    //     } catch (PDOException $e) {
+    //         echo "Error fetching user tasks: " . $e->getMessage() . "<br>";
+    //     }
+    // }
 
     // Method to retrieve tasks
     public function getTaskData() {
         return $this->tasks;
+    }
+
+    public function getAllUsers() {
+        $stmt = $this->conn->prepare("SELECT username FROM users");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function assignTask($taskId, $assignedTo) {
+        $stmt = $this->conn->prepare("UPDATE tasks SET assigned_to = :assignedTo WHERE task_id = :taskId");
+        $stmt->bindParam(':assignedTo', $assignedTo);
+        $stmt->bindParam(':taskId', $taskId);
+        $stmt->execute();
     }
 }
 
