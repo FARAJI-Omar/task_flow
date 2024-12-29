@@ -45,23 +45,25 @@
         </div>
 
         <div class="titleTasks">
-        <h2>Task List of: <strong><?php echo $username;?></strong></h2>
+        <h2>Task List of: <strong><?php echo htmlspecialchars($username);?></strong></h2>
             <div class="tasks">
-                <?php foreach ($tasks as $task): ?>
-                    <div>
-                        <p><strong>Title:</strong> <?php echo htmlspecialchars($task['title']); ?></p>
-                        <p><strong>Description:</strong> <?php echo htmlspecialchars($task['description']); ?></p>
-                        <p><strong>Category:</strong> <?php echo htmlspecialchars($task['category']); ?></p>
-                        <p><strong>Status:</strong> <?php echo htmlspecialchars($task['status']); ?></p>
-                        <p><strong>Created by:</strong> <?php echo htmlspecialchars($task['username']); ?></p>
-                        <p><strong>Created at:</strong> <?php echo htmlspecialchars($task['created_at']); ?></p>
-                        <hr> <!-- Optional: Add a horizontal line between tasks -->
-                    </div>
-                <?php endforeach; ?>
+            <?php if (empty($tasks)): ?>
+                <p>No tasks assigned to you.</p>
+                <?php else: ?>
+                    <?php foreach ($tasks as $task): ?>
+                        <div class="taskcart">
+                            <p><strong>Title:</strong> <?php echo htmlspecialchars($task['title']); ?></p>
+                            <p><strong>Description:</strong> <?php echo htmlspecialchars($task['description']); ?></p>
+                            <p><strong>Category:</strong> <?php echo htmlspecialchars($task['category']); ?></p>
+                            <p><strong>Status:</strong> <?php echo htmlspecialchars($task['status']); ?></p>
+                            <p><strong>Created by:</strong> <?php echo htmlspecialchars($task['username']); ?></p>
+                            <p><strong>Created at:</strong> <?php echo htmlspecialchars($task['created_at']); ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
-
 </body>
 </html>
 

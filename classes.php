@@ -181,18 +181,13 @@ class tasks{
     //     return $this->tasks; // Return the tasks as array
     // }
 
-    // // Method to get tasks related to a specific user
-    // public function getUserTasks($username) {
-
-    //     try {
-    //         $stmt = $this->conn->prepare("SELECT title, description, category, status, created_at, username FROM tasks WHERE username = :username");
-    //         $stmt->bindParam(':username', $username);
-    //         $stmt->execute();
-    //         $this->tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    //     } catch (PDOException $e) {
-    //         echo "Error fetching user tasks: " . $e->getMessage() . "<br>";
-    //     }
-    // }
+    // Method to get tasks related to a specific user
+    public function getUserTasks($username) {
+        $stmt = $this->conn->prepare("SELECT * FROM tasks WHERE assigned_to = ?");
+        $stmt->execute([$username]);
+        $this->tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+    }
 
     // Method to retrieve tasks
     public function getTaskData() {
@@ -211,6 +206,12 @@ class tasks{
         $stmt->bindParam(':taskId', $taskId);
         $stmt->execute();
     }
+
+    public function updateTaskStatus($taskId, $status) {
+        $stmt = $this->conn->prepare("UPDATE tasks SET status = ? WHERE task_id = ?");
+        $stmt->execute([$status, $taskId]);
+    }
+    
 }
 
 

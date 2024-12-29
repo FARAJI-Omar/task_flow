@@ -252,9 +252,10 @@ video {
 .taskcart{
     border: solid 2px #FF8000;
     margin: 5px;
+    padding: 10px;
 }
 
-.errorAssign{
+.errorAssign, .errorUpdate{
     color: red;
     font-size: 12px;
     font-weight: bold;

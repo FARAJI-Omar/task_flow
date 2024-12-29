@@ -30,7 +30,7 @@
             <li><img class="userIcon" src="images/user icon2.png" alt=""></li>
             <li><h3><?php echo $_SESSION['username']?></h3></li>
             <li><a href="displayAllTasks.php">View all tasks</a></li>
-            <li><a href="myTasks.php">View my tasks</a></li>
+            <li><a href="displayUserTasks.php">View my tasks</a></li>
             <li><a href="createTask.php">Create new task</a></li>
             <li>
                 <form action="home.php" method="POST">

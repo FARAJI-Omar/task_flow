@@ -24,8 +24,12 @@
                 $categorizedTask = new FeatureTask();
                 break;
             default:
-                echo '<p class="error">Must select a category.</p>';
-                exit();
+            echo '<script>
+            if (confirm("Must select a category.")) {
+                window.location.href = "createTask.php";
+            }
+            </script>';            
+            exit();
         }
 
         // set task properties

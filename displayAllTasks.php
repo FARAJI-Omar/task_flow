@@ -14,6 +14,7 @@
     $tasks = $allTasks->getTaskData();
     $allUsers = $allTasks->getAllUsers();
     $errorMessage = [];
+    $errorStatus = [];
 
     // Handle form submission for assigning tasks
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['assignTask'])) {
@@ -27,7 +28,21 @@
             header('Location: displayAllTasks.php'); 
             exit();
         }
-}
+    }
+
+    // Handle form submission for updating task status
+    if (isset($_POST['updateStatus'])) {
+      $taskId = $_POST['taskId'];
+      $taskStatus = $_POST['taskStatus'];
+
+      if ($taskStatus == '--Update Status:--' || empty($taskStatus)) {
+          $errorStatus[$taskId] = "Please select a valid status!";
+      } else {
+          $allTasks->updateTaskStatus($taskId, $taskStatus);
+          header('Location: displayAllTasks.php'); 
+          exit();
+      }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -85,6 +100,24 @@
                                     <span><?php echo htmlspecialchars($errorMessage[$task['task_id']]); ?></span>
                                 <?php endif; ?>
                             </div>
+
+                            <!-- Form for update status of the task -->
+                        <form method="POST">
+                            <input type="hidden" name="taskId" value="<?php echo $task['task_id']; ?>">
+                            <select id="taskStatus" name="taskStatus">
+                                <option>--Update Status:--</option>
+                                    <option value="1">To Do</option>
+                                    <option value="2">In Progress</option>
+                                    <option value="3">Done</option>
+                            </select>
+                            <input type="submit" name="updateStatus" value="Update" class="UpdateButton">
+                            <div class="errorUpdate">
+                                <?php if (isset($errorStatus[$task['task_id']])): ?>
+                                    <span><?php echo htmlspecialchars($errorStatus[$task['task_id']]); ?></span>
+                                <?php endif; ?>
+                            </div>
+                        </form>
+
                         </form>
                     </div>
                 <?php endforeach; ?>
