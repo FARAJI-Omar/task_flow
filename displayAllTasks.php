@@ -10,8 +10,8 @@
     require_once ('connect.php');
 
     $allTasks = new tasks();
-    $allTasks->getTasks(); 
-    $tasks = $allTasks->getTaskData();
+    // $allTasks->getTasks(); 
+    // $tasks = $allTasks->getTaskData();
     $allUsers = $allTasks->getAllUsers();
     $errorMessage = [];
     $errorStatus = [];
@@ -59,7 +59,7 @@
     <div class="mainview">
         <div class="sidebar">
             <ul>
-                <li><img class="userIcon" src="images/user icon2.png" alt=""></li>
+                <li><img class="userIcon" src="images/user-profile-icon-free-vector-cutout.png" alt=""></li>
                 <li><h3><?php echo $_SESSION['username']?></h3></li>
                 <li><a href="displayAllTasks.php">View all tasks</a></li>
                 <li><a href="displayUserTasks.php">View my tasks</a></li>
@@ -74,56 +74,33 @@
         </div>
 
         <div class="titleTasks">
-            <h2 class="title">Task List</h2>
+            <!-- <h2 class="title">Task List</h2> -->
             <div class="tasks">
-                <?php foreach ($tasks as $task): ?>
-                    <div class="taskcart">
-                        <p><strong>Title:</strong> <?php echo htmlspecialchars($task['title']); ?></p>
-                        <p><strong>Description:</strong> <?php echo htmlspecialchars($task['description']); ?></p>
-                        <p><strong>Category:</strong> <?php echo htmlspecialchars($task['category']); ?></p>
-                        <p><strong>Status:</strong> <?php echo htmlspecialchars($task['status']); ?></p>
-                        <p><strong>Created by:</strong> <?php echo htmlspecialchars($task['username']); ?></p>
-                        <p><strong>Created at:</strong> <?php echo htmlspecialchars($task['created_at']); ?></p>
-
-                        <!-- Form for assigning the task -->
-                        <form method="POST">
-                            <input type="hidden" name="taskId" value="<?php echo $task['task_id']; ?>">
-                            <select id="userList" name="userList">
-                                <option>--Assign Task To:--</option>
-                                <?php foreach ($allUsers as $user): ?>
-                                    <option value="<?php echo htmlspecialchars($user['username']); ?>"><?php echo htmlspecialchars($user['username']); ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            <input type="submit" name="assignTask" value="Assign" class="assignButton">
-                            <div class="errorAssign">
-                                <?php if (isset($errorMessage[$task['task_id']])): ?>
-                                    <span><?php echo htmlspecialchars($errorMessage[$task['task_id']]); ?></span>
-                                <?php endif; ?>
-                            </div>
-
-                            <!-- Form for update status of the task -->
-                        <form method="POST">
-                            <input type="hidden" name="taskId" value="<?php echo $task['task_id']; ?>">
-                            <select id="taskStatus" name="taskStatus">
-                                <option>--Update Status:--</option>
-                                    <option value="1">To Do</option>
-                                    <option value="2">In Progress</option>
-                                    <option value="3">Done</option>
-                            </select>
-                            <input type="submit" name="updateStatus" value="Update" class="UpdateButton">
-                            <div class="errorUpdate">
-                                <?php if (isset($errorStatus[$task['task_id']])): ?>
-                                    <span><?php echo htmlspecialchars($errorStatus[$task['task_id']]); ?></span>
-                                <?php endif; ?>
-                            </div>
-                        </form>
-
-                        </form>
-                    </div>
-                <?php endforeach; ?>
+                <div class="todotasks">
+                <h3 class="title1">To Do</h3>
+                    <?php include('todo.php');?>
+                </div>
+                <div class="inprogresstasks">
+                <h3 class="title2">In Progress</h3>
+                    <?php include('inprogress.php');?>
+                </div>
+                <div class="donetasks">
+                <h3 class="title3">Done</h3>
+                    <?php include('done.php');?>
+                </div>
             </div>
         </div>
     </div>
-
+    <footer><?php include('footer.php') ?></footer>
 </body>
 </html>
+
+<!-- ----------------logout-------------------------- -->
+
+<?php
+    if(isset($_POST["logout"])){
+        session_destroy();
+        header("location: welcome.php");
+        exit();
+    }
+?>

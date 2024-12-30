@@ -27,7 +27,7 @@
 
     <div class="sidebar">
         <ul>
-            <li><img class="userIcon" src="images/user icon2.png" alt=""></li>
+            <li><img class="userIcon" src="images/user-profile-icon-free-vector-cutout.png" alt=""></li>
             <li><h3><?php echo $_SESSION['username']?></h3></li>
             <li><a href="displayAllTasks.php">View all tasks</a></li>
             <li><a href="displayUserTasks.php">View my tasks</a></li>
@@ -40,16 +40,16 @@
         </ul>
 
     </div>
-    
+    <footer><?php include('footer.php') ?></footer>    
 </body>
 </html>
 
-<!-- ----------------logout-------------------------- -->
+    <!-- ----------------logout-------------------------- -->
 
-<?php
-    if(isset($_POST["logout"])){
-        session_destroy();
-        header("location: welcome.php");
-        exit();
-    }
-?>
+    <?php
+        if(isset($_POST["logout"])){
+            session_destroy();
+            header("location: welcome.php");
+            exit();
+        }
+    ?>

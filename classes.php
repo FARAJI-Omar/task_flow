@@ -165,16 +165,50 @@ class tasks{
         }
     }
 
-    // Method to get all tasks
-    public function getTasks() {
+    // // Method to get all tasks
+    // public function getTasks() {
+    //     try {
+    //         $stmt = $this->conn->prepare("SELECT task_id, title, description, category, status, created_at, username FROM tasks");
+    //         $stmt->execute();
+    //         $this->tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    //     } catch (PDOException $e) {
+    //         echo "Error fetching tasks: " . $e->getMessage() . "<br>";
+    //     }
+    // }
+
+     // Method to get tasks with 'To Do' status
+     public function getTasksToDo() {
         try {
-            $stmt = $this->conn->prepare("SELECT task_id, title, description, category, status, created_at, username FROM tasks");
+            $stmt = $this->conn->prepare("SELECT * FROM tasks WHERE status = 1");
             $stmt->execute();
             $this->tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo "Error fetching tasks: " . $e->getMessage() . "<br>";
+            echo "Error fetching tasks with To Do status: " . $e->getMessage() . "<br>";
         }
     }
+
+      // Method to get tasks with 'In Progress' status
+      public function getTasksInProgress() {
+        try {
+            $stmt = $this->conn->prepare("SELECT task_id, title, description, category, status, created_at, username FROM tasks WHERE status = 2");
+            $stmt->execute();
+            $this->tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error fetching tasks with In Progress status: " . $e->getMessage() . "<br>";
+        }
+    }
+
+    // Method to get tasks with 'Done' status
+    public function getTasksDone() {
+        try {
+            $stmt = $this->conn->prepare("SELECT task_id, title, description, category, status, created_at, username FROM tasks WHERE status = 3");
+            $stmt->execute();
+            $this->tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error fetching tasks with Done status: " . $e->getMessage() . "<br>";
+        }
+    }
+    
 
     // // Method to retrieve tasks
     // public function getTaskData() {

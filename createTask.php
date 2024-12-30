@@ -8,6 +8,12 @@
     require_once('classes.php');
     require_once ('connect.php');
 
+    if(isset($_POST["cancel"])){
+       
+        header("location: home.php");
+        exit();
+    }
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createTask'])) {
         $title = htmlspecialchars(trim($_POST['title']));
         $description = htmlspecialchars(trim($_POST['taskDescription']));
@@ -74,8 +80,21 @@
                 <option value="2">Bug</option>
                 <option value="3">Feature</option>
             </select>
-            <input type="submit" name="createTask" value="Create task">
+            <div class="createTaskButtons">
+                <input class="createsubmit" type="submit" name="createTask" value="Create task">
+                <input class="cancel" type="submit" value="Cancel" name="cancel"></input>
+            </div>
         </form>
     
 </body>
 </html>
+
+<!-- ----------------logout-------------------------- -->
+
+<?php
+    if(isset($_POST["logout"])){
+        session_destroy();
+        header("location: welcome.php");
+        exit();
+    }
+?>

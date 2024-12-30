@@ -14,6 +14,22 @@
     $userTasks = new tasks();
     $userTasks->getUserTasks($username);; 
     $tasks = $userTasks->getTaskData();
+
+    $errorStatus = [];
+
+    // Handle form submission for updating task status
+    if (isset($_POST['updateStatus'])) {
+        $taskId = $_POST['taskId'];
+        $taskStatus = $_POST['taskStatus'];
+    
+        if ($taskStatus == '--Update Status:--' || empty($taskStatus)) {
+            $errorStatus[$taskId] = "Please select a valid status!";
+        } else {
+            $userTasks->updateTaskStatus($taskId, $taskStatus);
+            header('Location: displayUserTasks.php'); 
+            exit();
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +46,7 @@
     <div class="mainview">
         <div class="sidebar">
             <ul>
-                <li><img class="userIcon" src="images/user icon2.png" alt=""></li>
+                <li><img class="userIcon" src="images/user-profile-icon-free-vector-cutout.png" alt=""></li>
                 <li><h3><?php echo $_SESSION['username']?></h3></li>
                 <li><a href="displayAllTasks.php">View all tasks</a></li>
                 <li><a href="displayUserTasks.php">View my tasks</a></li>
@@ -44,43 +60,37 @@
 
         </div>
 
+       
         <div class="titleTasks">
-        <h2>Task List of: <strong><?php echo htmlspecialchars($username);?></strong></h2>
+            <!-- <h2 class="title">Task List</h2> -->
             <div class="tasks">
-            <?php if (empty($tasks)): ?>
-                <p>No tasks assigned to you.</p>
-                <?php else: ?>
-                    <?php foreach ($tasks as $task): ?>
-                        <div class="taskcart">
-                            <p><strong>Title:</strong> <?php echo htmlspecialchars($task['title']); ?></p>
-                            <p><strong>Description:</strong> <?php echo htmlspecialchars($task['description']); ?></p>
-                            <p><strong>Category:</strong> <?php echo htmlspecialchars($task['category']); ?></p>
-                            <p><strong>Status:</strong> <?php echo htmlspecialchars($task['status']); ?></p>
-                            <p><strong>Created by:</strong> <?php echo htmlspecialchars($task['username']); ?></p>
-                            <p><strong>Created at:</strong> <?php echo htmlspecialchars($task['created_at']); ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                <div class="todotasks">
+                <h3 class="title1">To Do</h3>
+                    <?php include('todo.php');?>
+                </div>
+                <div class="inprogresstasks">
+                <h3 class="title2">In Progress</h3>
+                    <?php include('inprogress.php');?>
+                </div>
+                <div class="donetasks">
+                <h3 class="title3">Done</h3>
+                    <?php include('done.php');?>
+                </div>
             </div>
         </div>
     </div>
+    <footer><?php include('footer.php') ?></footer>    
+
 </body>
 </html>
 
-<div class="mainview">
-        <div class="sidebar">
-            <ul>
-                <li><img class="userIcon" src="images/user icon2.png" alt=""></li>
-                <li><h3><?php echo $_SESSION['username']?></h3></li>
-                <li><a href="displayAllTasks.php">View all tasks</a></li>
-                <li><a href="displayUserTasks.php">View my tasks</a></li>
-                <li><a href="createTask.php">Create new task</a></li>
-                <li>
-                    <form action="home.php" method="POST">
-                        <input type="submit" name="logout" value="log Out" class="logout">
-                    </form>
-                </li>
-            </ul>
+<!-- ----------------logout-------------------------- -->
 
-        </div>
+<?php
+    if(isset($_POST["logout"])){
+        session_destroy();
+        header("location: welcome.php");
+        exit();
+    }
+?>
 
