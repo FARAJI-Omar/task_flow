@@ -66,15 +66,15 @@
             <div class="tasks">
                 <div class="todotasks">
                 <h3 class="title1">To Do</h3>
-                    <?php include('todo.php');?>
+                    <?php include('usertodo.php');?>
                 </div>
                 <div class="inprogresstasks">
                 <h3 class="title2">In Progress</h3>
-                    <?php include('inprogress.php');?>
+                    <?php include('userinprogress.php');?>
                 </div>
                 <div class="donetasks">
                 <h3 class="title3">Done</h3>
-                    <?php include('done.php');?>
+                    <?php include('userdone.php');?>
                 </div>
             </div>
         </div>

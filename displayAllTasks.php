@@ -10,8 +10,6 @@
     require_once ('connect.php');
 
     $allTasks = new tasks();
-    // $allTasks->getTasks(); 
-    // $tasks = $allTasks->getTaskData();
     $allUsers = $allTasks->getAllUsers();
     $errorMessage = [];
     $errorStatus = [];
@@ -30,19 +28,6 @@
         }
     }
 
-    // Handle form submission for updating task status
-    if (isset($_POST['updateStatus'])) {
-      $taskId = $_POST['taskId'];
-      $taskStatus = $_POST['taskStatus'];
-
-      if ($taskStatus == '--Update Status:--' || empty($taskStatus)) {
-          $errorStatus[$taskId] = "Please select a valid status!";
-      } else {
-          $allTasks->updateTaskStatus($taskId, $taskStatus);
-          header('Location: displayAllTasks.php'); 
-          exit();
-      }
-    }
 ?>
 
 <!DOCTYPE html>

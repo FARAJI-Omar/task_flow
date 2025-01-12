@@ -1,21 +1,24 @@
 <?php
-class users {
+class users
+{
     private $db;
     private $conn;
 
     // Initialize the database connection
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = new database();
         $this->conn = $this->db->connect();
     }
 
     // Method to check if the username already exists
-    public function usernameExists($username) {
+    public function usernameExists($username)
+    {
         try {
             $stmt = $this->conn->prepare("SELECT COUNT(*) FROM users WHERE username = :username");
             $stmt->bindParam(':username', $username);
             $stmt->execute();
-            return $stmt->fetchColumn() > 0; // Returns true if username exists
+            return $stmt->fetchColumn() > 0;
         } catch (PDOException $e) {
             echo "Error checking username: " . $e->getMessage() . "<br>";
             return false;
@@ -23,14 +26,15 @@ class users {
     }
 
     // Method to register a new user
-    public function registerUser($username) {
+    public function registerUser($username)
+    {
         if (empty($username)) {
             return false;
         }
 
         // Check if the username already exists
         if ($this->usernameExists($username)) {
-            return false; 
+            return false;
         }
 
         try {
@@ -44,7 +48,7 @@ class users {
                 header("Location: home.php");
                 exit();
             } else {
-                return false; 
+                return false;
             }
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage() . "<br>";
@@ -53,7 +57,8 @@ class users {
     }
 
     // Method to sign in or register a user
-    public function signInOrRegisterUser($username) {
+    public function signInOrRegisterUser($username)
+    {
         if ($this->usernameExists($username)) {
             session_start();
             $_SESSION['username'] = $username;
@@ -74,36 +79,40 @@ class users {
 }
 
 
-class tasks{
+class tasks
+{
     private $db;
     private $conn;
     protected $title;
     protected $description;
     protected $category;
-    protected $status; 
+    protected $status;
     protected $created_at;
     protected $tasks = [];
 
     // initialize the database connection
-    public function __construct(){
+    public function __construct()
+    {
         $this->db = new database();
         $this->conn = $this->db->connect();
     }
 
     // Setter for title
-    public function setTitle($title) {
+    public function setTitle($title)
+    {
         $this->title = htmlspecialchars(trim($title));
-        if(empty($this->title)){
+        if (empty($this->title)) {
             echo '<p class="error">Title cannot be empty.<br></p>';
             return false;
         }
-        return true; 
+        return true;
     }
 
-      // Setter for description
-      public function setDescription($description) {
+    // Setter for description
+    public function setDescription($description)
+    {
         $this->description = htmlspecialchars(trim($description));
-        if(empty($this->description)){
+        if (empty($this->description)) {
             echo '<p class="error">Description cannot be empty.<br></p>';
             return false;
         }
@@ -111,18 +120,20 @@ class tasks{
     }
 
     // Setter for category
-    public function setCategory($category) {
-        if(empty($category)){
+    public function setCategory($category)
+    {
+        if (empty($category)) {
             echo '<p class="error">Category cannot be empty.<br></p>';
             return false;
         }
         $this->category = $category;
         return true;
-    }   
+    }
 
 
     // method to check if task already exists
-    public function taskExists($title) {
+    public function taskExists($title)
+    {
         try {
             $stmt = $this->conn->prepare("SELECT COUNT(*) FROM tasks WHERE title = :title");
             $stmt->bindParam(':title', $title);
@@ -135,15 +146,16 @@ class tasks{
     }
 
     // method to save a new task
-    public function saveTask() {
-        try{
+    public function saveTask()
+    {
+        try {
             //check if the task already exists
-            if($this->taskExists($this->title)){
+            if ($this->taskExists($this->title)) {
                 echo '<p>Task with that title already exists.<br></p>';
                 return false;
             }
             // check if the user is logged in
-            if(!isset($_SESSION['username'])){
+            if (!isset($_SESSION['username'])) {
                 header('Location: welcome.php');
                 return false;
             }
@@ -165,87 +177,116 @@ class tasks{
         }
     }
 
-    // // Method to get all tasks
-    // public function getTasks() {
-    //     try {
-    //         $stmt = $this->conn->prepare("SELECT task_id, title, description, category, status, created_at, username FROM tasks");
-    //         $stmt->execute();
-    //         $this->tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    //     } catch (PDOException $e) {
-    //         echo "Error fetching tasks: " . $e->getMessage() . "<br>";
-    //     }
-    // }
 
-     // Method to get tasks with 'To Do' status
-     public function getTasksToDo() {
+    // Method to get tasks with 'To Do' status
+    public function getTasksToDo()
+    {
         try {
             $stmt = $this->conn->prepare("SELECT * FROM tasks WHERE status = 1");
             $stmt->execute();
-            $this->tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $this->tasks = $stmt->fetchAll();
         } catch (PDOException $e) {
             echo "Error fetching tasks with To Do status: " . $e->getMessage() . "<br>";
         }
     }
 
-      // Method to get tasks with 'In Progress' status
-      public function getTasksInProgress() {
+    // Method to get tasks with 'In Progress' status
+    public function getTasksInProgress()
+    {
         try {
-            $stmt = $this->conn->prepare("SELECT task_id, title, description, category, status, created_at, username FROM tasks WHERE status = 2");
+            $stmt = $this->conn->prepare("SELECT * FROM tasks WHERE status = 2");
             $stmt->execute();
-            $this->tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $this->tasks = $stmt->fetchAll();
         } catch (PDOException $e) {
             echo "Error fetching tasks with In Progress status: " . $e->getMessage() . "<br>";
         }
     }
 
     // Method to get tasks with 'Done' status
-    public function getTasksDone() {
+    public function getTasksDone()
+    {
         try {
-            $stmt = $this->conn->prepare("SELECT task_id, title, description, category, status, created_at, username FROM tasks WHERE status = 3");
+            $stmt = $this->conn->prepare("SELECT * FROM tasks WHERE status = 3");
             $stmt->execute();
-            $this->tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $this->tasks = $stmt->fetchAll();
         } catch (PDOException $e) {
             echo "Error fetching tasks with Done status: " . $e->getMessage() . "<br>";
         }
     }
-    
 
-    // // Method to retrieve tasks
-    // public function getTaskData() {
-    //     return $this->tasks; // Return the tasks as array
-    // }
 
     // Method to get tasks related to a specific user
-    public function getUserTasks($username) {
-        $stmt = $this->conn->prepare("SELECT * FROM tasks WHERE assigned_to = ?");
-        $stmt->execute([$username]);
-        $this->tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+    public function getUserTasks($username)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM tasks WHERE assigned_to = :username");
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+        $this->tasks = $stmt->fetchAll();
     }
 
     // Method to retrieve tasks
-    public function getTaskData() {
+    public function getTaskData()
+    {
         return $this->tasks;
     }
 
-    public function getAllUsers() {
+    public function getAllUsers()
+    {
         $stmt = $this->conn->prepare("SELECT username FROM users");
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll();
     }
 
-    public function assignTask($taskId, $assignedTo) {
+    public function assignTask($taskId, $assignedTo)
+    {
         $stmt = $this->conn->prepare("UPDATE tasks SET assigned_to = :assignedTo WHERE task_id = :taskId");
         $stmt->bindParam(':assignedTo', $assignedTo);
         $stmt->bindParam(':taskId', $taskId);
         $stmt->execute();
     }
 
-    public function updateTaskStatus($taskId, $status) {
+    public function updateTaskStatus($taskId, $status)
+    {
         $stmt = $this->conn->prepare("UPDATE tasks SET status = ? WHERE task_id = ?");
         $stmt->execute([$status, $taskId]);
     }
-    
+
+    // Add these new methods for user-specific tasks
+    public function getUserTasksToDo($username)
+    {
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM tasks WHERE status = 1 AND assigned_to = :username");
+            $stmt->bindParam(':username', $username);
+            $stmt->execute();
+            $this->tasks = $stmt->fetchAll();
+        } catch (PDOException $e) {
+            echo "Error fetching user's To Do tasks: " . $e->getMessage() . "<br>";
+        }
+    }
+
+    public function getUserTasksInProgress($username)
+    {
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM tasks WHERE status = 2 AND assigned_to = :username");
+            $stmt->bindParam(':username', $username);
+            $stmt->execute();
+            $this->tasks = $stmt->fetchAll();
+        } catch (PDOException $e) {
+            echo "Error fetching user's In Progress tasks: " . $e->getMessage() . "<br>";
+        }
+    }
+
+    public function getUserTasksDone($username)
+    {
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM tasks WHERE status = 3 AND assigned_to = :username");
+            $stmt->bindParam(':username', $username);
+            $stmt->execute();
+            $this->tasks = $stmt->fetchAll();
+        } catch (PDOException $e) {
+            echo "Error fetching user's Done tasks: " . $e->getMessage() . "<br>";
+        }
+    }
 }
 
 
@@ -254,29 +295,32 @@ class tasks{
 
 
 
-class BasicTask extends tasks {
+class BasicTask extends tasks
+{
     protected $category = 'Basic';
 
-    public function getCategory() {
+    public function getCategory()
+    {
         return $this->category;
     }
 }
 
-class BugTask extends tasks {
+class BugTask extends tasks
+{
     protected $category = 'Bug';
 
-    public function getCategory() {
+    public function getCategory()
+    {
         return $this->category;
     }
 }
 
-class FeatureTask extends tasks {
+class FeatureTask extends tasks
+{
     protected $category = 'Feature';
 
-    public function getCategory() {
+    public function getCategory()
+    {
         return $this->category;
     }
 }
-    
-
-?>

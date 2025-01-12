@@ -32,7 +32,7 @@
     <video id="backgroundVideo" autoplay muted loop playsinline>
       <source src="images/stars.mp4" type="video/mp4">
     </video>
-  </div>
+</div>
 <div class="welcome">
     <div class="welcometext">
         <h2>Welcome!</h2>
